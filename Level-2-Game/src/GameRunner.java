@@ -1,14 +1,14 @@
 import javax.swing.JFrame;
 
-public class GameWindow {
+public class GameRunner {
 	GamePanel panel;
 	JFrame window;
 
 	public static void main(String[] args) {
-		GameWindow gw = new GameWindow();
+		GameRunner gr = new GameRunner();
 	}
 
-	GameWindow() {
+	GameRunner() {
 		panel = new GamePanel();
 		window = new JFrame();
 		window.add(panel);
