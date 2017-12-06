@@ -15,5 +15,6 @@ public class GameRunner {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(960, 980);
 		window.setVisible(true);
+		window.addKeyListener(panel);
 	}
 }
