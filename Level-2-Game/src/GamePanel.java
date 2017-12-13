@@ -19,6 +19,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int playerSize = 30;
 	int playerX = 465;
 	int playerY = 465;
+	int menuState = 0;
+	int instructionState = 1;
+	int gameState = 2;
+	int endState = 3;
+	int currentState = menuState;
 	Timer t;
 
 	public static void main(String[] args) {
@@ -31,33 +36,43 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void paintComponent(Graphics g) {
-		int o = 30;
-		for (int i = 30; i < 910; i += 30) {
-			g.drawRect(o, o, i, i);
+		if (currentState == menuState) {
+			Font t = new Font("Default", Font.BOLD, 75);
+			setFont(t);
+			g.drawString("Simple Agario", 100, 150);
+			g.drawString("by Oliver Nizet", 100, 350);
+			g.drawString("Press I for Instructions", 50, 550);
+			g.drawString("Press S to Start", 100, 750);
 		}
-		int p = 0;
-		for (int i = 900; i > 30; i -= 30) {
-			p += 30;
-			g.drawRect(i, i, p, p);
+		if (currentState == gameState) {
+			int o = 30;
+			for (int i = 30; i < 910; i += 30) {
+				g.drawRect(o, o, i, i);
+			}
+			int p = 0;
+			for (int i = 900; i > 30; i -= 30) {
+				p += 30;
+				g.drawRect(i, i, p, p);
+			}
+			if (playerY < 30) {
+				playerY = 30;
+			}
+			if (playerY > 900) {
+				playerY = 900;
+			}
+			if (playerX < 30) {
+				playerX = 30;
+			}
+			if (playerX > 900) {
+				playerX = 900;
+			}
+			g.setColor(Color.BLUE);
+			g.fillOval(playerX, playerY, playerSize, playerSize);
+			g.setColor(Color.BLACK);
+			Font s = new Font("Default", Font.BOLD, 24);
+			g.setFont(s);
+			g.drawString("Score: " + (playerSize - 30), 10, 22);
 		}
-		if (playerY < 30) {
-			playerY = 30;
-		}
-		if (playerY > 900) {
-			playerY = 900;
-		}
-		if (playerX < 30) {
-			playerX = 30;
-		}
-		if (playerX > 900) {
-			playerX = 900;
-		}
-		g.setColor(Color.BLUE);
-		g.fillOval(playerX, playerY, playerSize, playerSize);
-		g.setColor(Color.BLACK);
-		Font f = new Font("Default", Font.BOLD, 24);
-		g.setFont(f);
-		g.drawString("Score: " + (playerSize - 30), 10, 22);
 	}
 
 	@Override
@@ -75,17 +90,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			playerY -= 15;
+		if (currentState == menuState || currentState == instructionState) {
+			if (e.getKeyCode() == KeyEvent.VK_I) {
+				currentState = instructionState;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_S) {
+				currentState = gameState;
+			}
 		}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			playerY += 15;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			playerX -= 15;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			playerX += 15;
+		if (currentState == gameState) {
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				playerY -= 15;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				playerY += 15;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				playerX -= 15;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				playerX += 15;
+			}
 		}
 	}
 
