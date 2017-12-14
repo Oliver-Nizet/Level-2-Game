@@ -13,8 +13,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	private static final char Up = 0;
 	/*
-	 * public final int menuState = 0; public final int gameState = 1; public final
-	 * int endState = 2; public int currentState = menuState;
+	 * public final int menuState = 0; public final int gameState = 1; public
+	 * final int endState = 2; public int currentState = menuState;
 	 */
 	int playerSize = 30;
 	int playerX = 465;
@@ -37,12 +37,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void paintComponent(Graphics g) {
 		if (currentState == menuState) {
-			Font t = new Font("Default", Font.BOLD, 75);
-			setFont(t);
-			g.drawString("Simple Agario", 100, 150);
-			g.drawString("by Oliver Nizet", 100, 350);
-			g.drawString("Press I for Instructions", 50, 550);
-			g.drawString("Press S to Start", 100, 750);
+			Font m = new Font("Default", Font.BOLD, 75);
+			setFont(m);
+			g.drawString("Simple Agario", 200, 125);
+			g.drawString("by Oliver Nizet", 175, 325);
+			g.drawString("Press I for Instructions", 50, 525);
+			g.drawString("Press S to Start", 175, 725);
+		}
+		if (currentState == instructionState) {
+			Font i = new Font("Default", Font.BOLD, 60);
+			setFont(i);
+			g.drawString("Use Arrow Keys To Move", 75, 125);
+			g.drawString("Collect Items To Grow", 80, 325);
+			g.drawString("Press B to Return To Main", 75, 525);
+			g.drawString("Press S to Start", 175, 725);
 		}
 		if (currentState == gameState) {
 			int o = 30;
@@ -96,6 +104,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 			if (e.getKeyCode() == KeyEvent.VK_S) {
 				currentState = gameState;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_B) {
+				currentState = menuState;
 			}
 		}
 		if (currentState == gameState) {
