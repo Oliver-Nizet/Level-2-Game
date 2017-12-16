@@ -13,8 +13,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	private static final char Up = 0;
 	/*
-	 * public final int menuState = 0; public final int gameState = 1; public
-	 * final int endState = 2; public int currentState = menuState;
+	 * public final int menuState = 0; public final int gameState = 1; public final
+	 * int endState = 2; public int currentState = menuState;
 	 */
 	int playerSize = 30;
 	int playerX = 465;
