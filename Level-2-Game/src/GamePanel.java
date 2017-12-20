@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -25,13 +28,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int endState = 3;
 	int currentState = menuState;
 	Timer t;
+	private static Random random = new Random();
+	List<GameObject> list;
 
 	public static void main(String[] args) {
 		GamePanel gp = new GamePanel();
 	}
 
 	GamePanel() {
-		t = new Timer(1000 / 60, this);
+		t = new Timer(1000 / 1000, this);
 		t.start();
 	}
 
@@ -80,7 +85,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			Font s = new Font("Default", Font.BOLD, 24);
 			g.setFont(s);
 			g.drawString("Score: " + (playerSize - 30), 10, 22);
+			if (list == null) {
+				list = initializeList(0);
+			}
+			for (GameObject go : list) {
+				go.draw(g);
+			}
 		}
+	}
+
+	public List<GameObject> initializeList(int size) {
+		List<GameObject> l = new ArrayList<>();
+		for (int i = size; i < 10; i++) {
+			GameObject go = new GameObject(random.nextInt(900) + 50, random.nextInt(900) + 50);
+			l.add(go);
+		}
+		return l;
 	}
 
 	@Override
