@@ -2,7 +2,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameObject {
-	int x, y;
+	int x;
+	int y;
 
 	GameObject(int x, int y) {
 		this.x = x;

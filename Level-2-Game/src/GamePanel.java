@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString("Press S to Start", 175, 725);
 		}
 		if (currentState == gameState) {
+			g.setColor(Color.lightGray);
 			int o = 30;
 			for (int i = 30; i < 910; i += 30) {
 				g.drawRect(o, o, i, i);
@@ -103,6 +104,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		return l;
 	}
 
+	public void Check() {
+		if (0 == 0) {
+			// (for if statement) playerX - (playerSize/2) <= ("itemX" - 10) && playerY -
+			// (playerSize/2) <= ("itemY" - 10)
+			// removeItem;
+			// addItem;
+			playerSize++;
+		}
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -142,6 +153,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				playerX += 15;
 			}
+		}
+		if (e.getKeyCode() == KeyEvent.VK_H && e.getKeyCode() == KeyEvent.VK_A && e.getKeyCode() == KeyEvent.VK_C
+				&& e.getKeyCode() == KeyEvent.VK_K) {
+			playerSize += 10;
 		}
 	}
 
