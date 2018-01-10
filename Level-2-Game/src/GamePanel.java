@@ -13,12 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
-
 	private static final char Up = 0;
-	/*
-	 * public final int menuState = 0; public final int gameState = 1; public final
-	 * int endState = 2; public int currentState = menuState;
-	 */
 	int playerSize = 30;
 	int playerX = 465;
 	int playerY = 465;
@@ -92,6 +87,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			for (GameObject go : list) {
 				go.draw(g);
 			}
+			check();
 		}
 	}
 
@@ -104,14 +100,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		return l;
 	}
 
-	public void Check() {
-		if (0 == 0) {
-			// (for if statement) playerX - (playerSize/2) <= ("itemX" - 10) && playerY -
-			// (playerSize/2) <= ("itemY" - 10)
-			// removeItem;
-			// addItem;
-			playerSize++;
+	public void check() {
+		for (int i = 0; i < list.size(); i++) {
+			GameObject go = list.get(i);
+			// System.out.println(i + " : (" + go.x + ", " + go.y + ") @ (" + playerX + ", "
+			// + playerY + ")");
+			if (intersect(playerX, playerY, go.x, go.y, playerSize / 2, 10)) {
+				go.x = random.nextInt(900) + 50;
+				go.y = random.nextInt(900) + 50;
+				playerSize++;
+			}
 		}
+	}
+
+	public boolean intersect(int x1, int y1, int x2, int y2, int s1, int s2) {
+		int dx = (x1 - x2) * (x1 - x2);
+		int dy = (y1 - y2) * (y1 - y2);
+		int ds = (s1 + s2) * (s1 + s2);
+		return dx + dy <= ds;
 	}
 
 	@Override
