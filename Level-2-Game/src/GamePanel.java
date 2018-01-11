@@ -80,7 +80,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.setColor(Color.BLACK);
 			Font s = new Font("Default", Font.BOLD, 24);
 			g.setFont(s);
-			g.drawString("Score: " + (playerSize - 30), 10, 22);
+			g.drawString("Score: " + (playerSize / 3 - 10), 10, 22);
+			if (list == null) {
+				list = initializeList(0);
+			}
 			if (list == null) {
 				list = initializeList(0);
 			}
@@ -100,6 +103,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		return l;
 	}
 
+	public List<GameObstacle> initializeList2(int size) {
+		List<GameObstacle> o = new ArrayList<>();
+		for (int i = size; i < 3; i++) {
+			GameObstacle ob = new GameObstacle(50, 50);
+			o.add(ob);
+		}
+		return o;
+	}
+
 	public void check() {
 		for (int i = 0; i < list.size(); i++) {
 			GameObject go = list.get(i);
@@ -108,7 +120,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (intersect(playerX, playerY, go.x, go.y, playerSize / 2, 10)) {
 				go.x = random.nextInt(900) + 50;
 				go.y = random.nextInt(900) + 50;
-				playerSize++;
+				playerSize += 3;
 			}
 		}
 	}
@@ -160,9 +172,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				playerX += 15;
 			}
 		}
-		if (e.getKeyCode() == KeyEvent.VK_H && e.getKeyCode() == KeyEvent.VK_A && e.getKeyCode() == KeyEvent.VK_C
-				&& e.getKeyCode() == KeyEvent.VK_K) {
-			playerSize += 10;
+		if (e.getKeyCode() == KeyEvent.VK_H) {
+			playerSize += 30;
 		}
 	}
 

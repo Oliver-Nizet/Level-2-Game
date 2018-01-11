@@ -20,7 +20,7 @@ public class GameObject {
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.RED);
+		g.setColor(Color.GREEN);
 		g.fillOval(x, y, 20, 20);
 	}
 }
