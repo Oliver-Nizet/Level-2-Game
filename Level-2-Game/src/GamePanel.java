@@ -15,8 +15,8 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private static final char Up = 0;
 	int playerSize = 30;
-	int playerX = 465;
-	int playerY = 465;
+	int playerX = 480;
+	int playerY = 480;
 	int menuState = 0;
 	int instructionState = 1;
 	int gameState = 2;
@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer t;
 	private static Random random = new Random();
 	List<GameObject> list;
+	List<GameObstacle> list2;
 
 	public static void main(String[] args) {
 		GamePanel gp = new GamePanel();
@@ -63,20 +64,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				p += 30;
 				g.drawRect(i, i, p, p);
 			}
-			if (playerY < 30) {
-				playerY = 30;
+			if (playerY - (playerSize / 2) < 30) {
+				playerY = (playerSize / 2 + 30);
 			}
-			if (playerY > 900) {
-				playerY = 900;
+			if (playerY + (playerSize / 2) > 930) {
+				playerY = 930 - (playerSize / 2);
 			}
-			if (playerX < 30) {
-				playerX = 30;
+			if (playerX - (playerSize / 2) < 30) {
+				playerX = (playerSize / 2) + 30;
 			}
-			if (playerX > 900) {
-				playerX = 900;
+			if (playerX + (playerSize / 2) > 930) {
+				playerX = 930 - (playerSize / 2);
+
 			}
 			g.setColor(Color.BLUE);
-			g.fillOval(playerX, playerY, playerSize, playerSize);
+			g.fillOval(playerX - (playerSize / 2), playerY - (playerSize / 2), playerSize, playerSize);
 			g.setColor(Color.BLACK);
 			Font s = new Font("Default", Font.BOLD, 24);
 			g.setFont(s);
@@ -84,11 +86,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (list == null) {
 				list = initializeList(0);
 			}
-			if (list == null) {
-				list = initializeList(0);
+			if (list2 == null) {
+				list2 = initializeList2(0);
 			}
 			for (GameObject go : list) {
 				go.draw(g);
+			}
+			for (GameObstacle ob : list2) {
+				ob.draw(g);
 			}
 			check();
 		}
@@ -97,7 +102,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public List<GameObject> initializeList(int size) {
 		List<GameObject> l = new ArrayList<>();
 		for (int i = size; i < 10; i++) {
-			GameObject go = new GameObject(random.nextInt(900) + 50, random.nextInt(900) + 50);
+			GameObject go = new GameObject(random.nextInt(820) + 60, random.nextInt(820) + 60);
 			l.add(go);
 		}
 		return l;
@@ -106,7 +111,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public List<GameObstacle> initializeList2(int size) {
 		List<GameObstacle> o = new ArrayList<>();
 		for (int i = size; i < 3; i++) {
-			GameObstacle ob = new GameObstacle(50, 50);
+			GameObstacle ob = new GameObstacle(50 * i, 50 * i);
 			o.add(ob);
 		}
 		return o;

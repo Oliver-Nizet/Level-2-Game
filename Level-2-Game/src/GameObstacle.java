@@ -20,7 +20,7 @@ public class GameObstacle {
 
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.MAGENTA);
+		g.setColor(Color.RED);
 		g.fillOval(x2, y2, 20, 20);
 	}
 }
