@@ -21,11 +21,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int instructionState = 1;
 	int gameState = 2;
 	int endState = 3;
+	int winState = 4;
+	int loseState = 5;
 	int currentState = menuState;
 	Timer t;
 	private static Random random = new Random();
 	List<GameObject> list;
 	List<GameObstacle> list2;
+	List<GameChance> list3;
 
 	public static void main(String[] args) {
 		GamePanel gp = new GamePanel();
@@ -54,6 +57,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString("Press S to Start", 175, 725);
 		}
 		if (currentState == gameState) {
+			if ((playerSize / 3 - 10) >= 100) {
+				currentState = winState;
+			}
+			if ((playerSize / 3 - 10) <= -5) {
+				currentState = loseState;
+			}
 			g.setColor(Color.lightGray);
 			int o = 30;
 			for (int i = 30; i < 910; i += 30) {
@@ -89,13 +98,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (list2 == null) {
 				list2 = initializeList2(0);
 			}
+			if (list3 == null) {
+				list3 = initializeList3(0);
+			}
 			for (GameObject go : list) {
 				go.draw(g);
 			}
 			for (GameObstacle ob : list2) {
 				ob.draw(g);
 			}
+			for (GameChance ch : list3) {
+				ch.draw(g);
+			}
 			check();
+		}
+		if (currentState == winState) {
+			g.drawString("You Reached 100", 200, 100);
+			g.drawString("Points and Won!", 200, 300);
+		}
+		if (currentState == loseState) {
+			g.drawString("You Got a Score of -5", 50, 100);
+			g.drawString("or Less and Lost.", 175, 300);
 		}
 	}
 
@@ -110,11 +133,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public List<GameObstacle> initializeList2(int size) {
 		List<GameObstacle> o = new ArrayList<>();
-		for (int i = size; i < 3; i++) {
-			GameObstacle ob = new GameObstacle(50 * i, 50 * i);
+		for (int i = size; i < 5; i++) {
+			GameObstacle ob = new GameObstacle(random.nextInt(820) + 60, random.nextInt(820) + 60);
 			o.add(ob);
 		}
 		return o;
+	}
+
+	public List<GameChance> initializeList3(int size) {
+		List<GameChance> c = new ArrayList<>();
+		for (int i = size; i < 3; i++) {
+			GameChance ch = new GameChance(random.nextInt(820) + 60, random.nextInt(820) + 60);
+			c.add(ch);
+		}
+		return c;
 	}
 
 	public void check() {
@@ -123,9 +155,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// System.out.println(i + " : (" + go.x + ", " + go.y + ") @ (" + playerX + ", "
 			// + playerY + ")");
 			if (intersect(playerX, playerY, go.x, go.y, playerSize / 2, 10)) {
-				go.x = random.nextInt(900) + 50;
-				go.y = random.nextInt(900) + 50;
+				go.x = random.nextInt(820) + 60;
+				go.y = random.nextInt(820) + 60;
 				playerSize += 3;
+			}
+		}
+		for (int i = 0; i < list2.size(); i++) {
+			GameObstacle ob = list2.get(i);
+			if (intersect(playerX, playerY, ob.x2, ob.y2, playerSize / 2, 10)) {
+				ob.x2 = random.nextInt(820) + 60;
+				ob.y2 = random.nextInt(820) + 60;
+				playerSize -= 9;
+			}
+		}
+		for (int i = 0; i < list3.size(); i++) {
+			GameChance ch = list3.get(i);
+			if (intersect(playerX, playerY, ch.x3, ch.y3, playerSize / 2, 10)) {
+				ch.x3 = random.nextInt(820) + 60;
+				ch.y3 = random.nextInt(820) + 60;
+				int x = random.nextInt(10) + 1;
+				if (x % 2 == 0) {
+					playerSize += 15;
+				} else {
+					playerSize -= 15;
+				}
 			}
 		}
 	}
