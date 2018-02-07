@@ -24,6 +24,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int winState = 4;
 	int loseState = 5;
 	int currentState = menuState;
+	int level1 = 1;
+	int level2 = 2;
+	int level3 = 3;
+	int currentLevel = level1;
+	long time = System.currentTimeMillis();
 	Timer t;
 	private static Random random = new Random();
 	List<GameObject> list;
@@ -111,20 +116,36 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				ch.draw(g);
 			}
 			check();
-		}
-		if (currentState == winState) {
-			g.drawString("You Reached 100", 200, 100);
-			g.drawString("Points and Won!", 200, 300);
-		}
-		if (currentState == loseState) {
-			g.drawString("You Got a Score of -5", 50, 100);
-			g.drawString("or Less and Lost.", 175, 300);
+			if (currentState == winState) {
+				g.drawString("You Reached 100", 200, 100);
+				g.drawString("Points and Won!", 200, 300);
+				if (System.currentTimeMillis() - time > 5000) {
+					time = System.currentTimeMillis();
+					playerSize = 30;
+					playerX = 480;
+					playerY = 480;
+					currentLevel++;
+					currentState = gameState;
+				}
+			}
+			if (currentState == loseState) {
+				g.drawString("You Got a Score of -5", 50, 100);
+				g.drawString("or Less and Lost.", 175, 300);
+			}
 		}
 	}
 
 	public List<GameObject> initializeList(int size) {
+		int g = 0;
+		if (currentLevel == level1) {
+			g = 10;
+		} else if (currentLevel == level2) {
+			g = 8;
+		} else if (currentLevel == level3) {
+			g = 6;
+		}
 		List<GameObject> l = new ArrayList<>();
-		for (int i = size; i < 10; i++) {
+		for (int i = size; i < g; i++) {
 			GameObject go = new GameObject(random.nextInt(820) + 60, random.nextInt(820) + 60);
 			l.add(go);
 		}
@@ -132,8 +153,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public List<GameObstacle> initializeList2(int size) {
+		int r = 0;
+		if (currentLevel == level1) {
+			r = 5;
+		} else if (currentLevel == level2) {
+			r = 7;
+		} else if (currentLevel == level3) {
+			r = 9;
+		}
 		List<GameObstacle> o = new ArrayList<>();
-		for (int i = size; i < 5; i++) {
+		for (int i = size; i < r; i++) {
 			GameObstacle ob = new GameObstacle(random.nextInt(820) + 60, random.nextInt(820) + 60);
 			o.add(ob);
 		}
@@ -141,8 +170,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public List<GameChance> initializeList3(int size) {
+		int p = 0;
+		if (currentLevel == level1) {
+			p = 3;
+		} else if (currentLevel == level2) {
+			p = 3;
+		} else if (currentLevel == level3) {
+			p = 3;
+		}
 		List<GameChance> c = new ArrayList<>();
-		for (int i = size; i < 3; i++) {
+		for (int i = size; i < p; i++) {
 			GameChance ch = new GameChance(random.nextInt(820) + 60, random.nextInt(820) + 60);
 			c.add(ch);
 		}
