@@ -27,8 +27,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int level1 = 1;
 	int level2 = 2;
 	int level3 = 3;
+	int level4 = 4;
+	int level5 = 5;
 	int currentLevel = level1;
-	long time = System.currentTimeMillis();
 	Timer t;
 	private static Random random = new Random();
 	List<GameObject> list;
@@ -49,17 +50,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			Font m = new Font("Default", Font.BOLD, 75);
 			setFont(m);
 			g.drawString("Simple Agario", 200, 125);
-			g.drawString("by Oliver Nizet", 175, 325);
-			g.drawString("Press I for Instructions", 50, 525);
+			g.drawString("Press I for Instructions", 50, 425);
 			g.drawString("Press S to Start", 175, 725);
 		}
 		if (currentState == instructionState) {
-			Font i = new Font("Default", Font.BOLD, 60);
+			Font i = new Font("Default", Font.BOLD, 55);
 			setFont(i);
-			g.drawString("Use Arrow Keys To Move", 75, 125);
-			g.drawString("Collect Items To Grow", 80, 325);
-			g.drawString("Press B to Return To Main", 75, 525);
-			g.drawString("Press S to Start", 175, 725);
+			g.drawString("Use Arrow Keys To Move", 120, 125);
+			g.drawString("Green Orbs Give Points", 145, 250);
+			g.drawString("Red Orbs Take Points", 180, 375);
+			g.drawString("Purple Orbs Give or Take Points", 25, 500);
+			g.drawString("Press B to Return To Main", 120, 625);
+			g.drawString("Press S to Start", 260, 750);
 		}
 		if (currentState == gameState) {
 			if ((playerSize / 3 - 10) >= 100) {
@@ -97,6 +99,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			Font s = new Font("Default", Font.BOLD, 24);
 			g.setFont(s);
 			g.drawString("Score: " + (playerSize / 3 - 10), 10, 22);
+			g.drawString("Level: " + currentLevel, 850, 22);
 			if (list == null) {
 				list = initializeList(0);
 			}
@@ -117,20 +120,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 			check();
 			if (currentState == winState) {
-				g.drawString("You Reached 100", 200, 100);
-				g.drawString("Points and Won!", 200, 300);
-				if (System.currentTimeMillis() - time > 5000) {
-					time = System.currentTimeMillis();
-					playerSize = 30;
-					playerX = 480;
-					playerY = 480;
-					currentLevel++;
-					currentState = gameState;
-				}
+				playerSize = 30;
+				playerX = 480;
+				playerY = 480;
+				currentLevel++;
+				list = initializeList(0);
+				list2 = initializeList2(0);
+				list3 = initializeList3(0);
+				currentState = gameState;
 			}
 			if (currentState == loseState) {
 				g.drawString("You Got a Score of -5", 50, 100);
 				g.drawString("or Less and Lost.", 175, 300);
+			}
+			if (currentLevel == 6) {
+				currentState = endState;
+			}
+			if (currentState == endState) {
+				g.drawString("You Win", 100, 100);
 			}
 		}
 	}
@@ -143,6 +150,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g = 8;
 		} else if (currentLevel == level3) {
 			g = 6;
+		} else if (currentLevel == level4) {
+			g = 4;
+		} else if (currentLevel == level5) {
+			g = 2;
 		}
 		List<GameObject> l = new ArrayList<>();
 		for (int i = size; i < g; i++) {
@@ -160,6 +171,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			r = 7;
 		} else if (currentLevel == level3) {
 			r = 9;
+		} else if (currentLevel == level4) {
+			r = 11;
+		} else if (currentLevel == level5) {
+			r = 13;
 		}
 		List<GameObstacle> o = new ArrayList<>();
 		for (int i = size; i < r; i++) {
@@ -176,6 +191,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentLevel == level2) {
 			p = 3;
 		} else if (currentLevel == level3) {
+			p = 3;
+		} else if (currentLevel == level4) {
+			p = 3;
+		} else if (currentLevel == level5) {
 			p = 3;
 		}
 		List<GameChance> c = new ArrayList<>();
@@ -268,7 +287,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_H) {
-			playerSize += 30;
+			playerSize += 150;
 		}
 	}
 
