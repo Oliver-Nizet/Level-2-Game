@@ -1,6 +1,8 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -129,16 +131,44 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				list3 = initializeList3(0);
 				currentState = gameState;
 			}
-			if (currentState == loseState) {
-				g.drawString("You Got a Score of -5", 50, 100);
-				g.drawString("or Less and Lost.", 175, 300);
-			}
-			if (currentLevel == 6) {
-				currentState = endState;
-			}
-			if (currentState == endState) {
-				g.drawString("You Win", 100, 100);
-			}
+		}
+		if (currentState == loseState) {
+			g.drawString("You Got a Score of -5", 50, 100);
+			g.drawString("or Less and Lost", 170, 300);
+		}
+		if (currentLevel == 6) {
+			currentState = endState;
+		}
+		if (currentState == endState) {
+			Font w = new Font("Default", Font.BOLD, 200);
+			g.setFont(w);
+			g.drawString("You Win!", 30, 200);
+			drawStar(g, Color.YELLOW, 5, 480, 585, 250, 250);
+		}
+
+	}
+
+	public double circleX(int sides, int angle) {
+		double coeff = (double) angle / (double) sides;
+		return Math.cos(2 * coeff * Math.PI - (Math.PI / 2));
+	}
+
+	public double circleY(int sides, int angle) {
+		double coeff = (double) angle / (double) sides;
+		return Math.sin(2 * coeff * Math.PI - (Math.PI / 2));
+	}
+
+	public void drawStar(Graphics g, Color c, int sides, int x, int y, int w, int h) {
+		Color colorSave = g.getColor();
+		g.setColor(c);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setStroke(new BasicStroke(175, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		for (int i = 0; i < sides; i++) {
+			int x1 = (int) (circleX(sides, i) * (double) (w)) + x;
+			int y1 = (int) (circleY(sides, i) * (double) (h)) + y;
+			int x2 = (int) (circleX(sides, (i + 2) % sides) * (double) (w)) + x;
+			int y2 = (int) (circleY(sides, (i + 2) % sides) * (double) (h)) + y;
+			g.drawLine(x1, y1, x2, y2);
 		}
 	}
 
@@ -229,7 +259,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (intersect(playerX, playerY, ch.x3, ch.y3, playerSize / 2, 10)) {
 				ch.x3 = random.nextInt(820) + 60;
 				ch.y3 = random.nextInt(820) + 60;
-				int x = random.nextInt(10) + 1;
+				int x = random.nextInt(100) + 1;
 				if (x % 2 == 0) {
 					playerSize += 15;
 				} else {
