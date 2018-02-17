@@ -134,7 +134,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		if (currentState == loseState) {
 			g.drawString("You Got a Score of -5", 50, 100);
-			g.drawString("or Less and Lost", 170, 300);
+			g.drawString("or Less and Lost", 170, 225);
+			g.setColor(Color.RED);
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setStroke(new BasicStroke(175));
+			g.drawLine(320, 440, 640, 760);
+			g.drawLine(640, 440, 320, 760);
 		}
 		if (currentLevel == 6) {
 			currentState = endState;
@@ -315,9 +320,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				playerX += 15;
 			}
-		}
-		if (e.getKeyCode() == KeyEvent.VK_H) {
-			playerSize += 150;
+			if (e.getKeyCode() == KeyEvent.VK_O) {
+				playerSize += 150;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_P) {
+				playerSize -= 15;
+			}
 		}
 	}
 
