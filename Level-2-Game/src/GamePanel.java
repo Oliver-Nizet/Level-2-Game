@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString("Press S to Start", 260, 750);
 		}
 		if (currentState == gameState) {
-			if ((playerSize / 3 - 10) >= 100) {
+			if ((playerSize / 3 - 10) >= 50) {
 				currentState = winState;
 			}
 			if ((playerSize / 3 - 10) <= -5) {
@@ -248,7 +248,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (intersect(playerX, playerY, go.x, go.y, playerSize / 2, 10)) {
 				go.x = random.nextInt(820) + 60;
 				go.y = random.nextInt(820) + 60;
-				playerSize += 3;
+				playerSize += 9;
 			}
 		}
 		for (int i = 0; i < list2.size(); i++) {
