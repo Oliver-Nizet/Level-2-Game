@@ -1,1 +1,2 @@
-level 2 game by me
+Simple Agario Level 2 Game
+Created by Oliver Nizet
