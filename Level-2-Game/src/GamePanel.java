@@ -17,8 +17,8 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private static final char Up = 0;
 	int playerSize = 30;
-	int playerX = 480;
-	int playerY = 480;
+	float playerX = 480;
+	float playerY = 480;
 	int menuState = 0;
 	int instructionState = 1;
 	int gameState = 2;
@@ -32,6 +32,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int level4 = 4;
 	int level5 = 5;
 	int currentLevel = level1;
+	boolean moveUp = false;
+	boolean moveDown = false;
+	boolean moveLeft = false;
+	boolean moveRight = false;
 	Timer t;
 	private static Random random = new Random();
 	List<GameObject> list;
@@ -66,6 +70,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString("Press S to Start", 260, 750);
 		}
 		if (currentState == gameState) {
+			if (moveUp == true) {
+				playerY -= 0.75;
+			}
+			if (moveDown == true) {
+				playerY += 0.75;
+			}
+			if (moveLeft == true) {
+				playerX -= 0.75;
+			}
+			if (moveRight == true) {
+				playerX += 0.75;
+			}
 			if ((playerSize / 3 - 10) >= 50) {
 				currentState = winState;
 			}
@@ -96,7 +112,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 			}
 			g.setColor(Color.BLUE);
-			g.fillOval(playerX - (playerSize / 2), playerY - (playerSize / 2), playerSize, playerSize);
+			g.fillOval((int) playerX - (playerSize / 2), (int) playerY - (playerSize / 2), playerSize, playerSize);
 			g.setColor(Color.BLACK);
 			Font s = new Font("Default", Font.BOLD, 24);
 			g.setFont(s);
@@ -274,10 +290,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	public boolean intersect(int x1, int y1, int x2, int y2, int s1, int s2) {
-		int dx = (x1 - x2) * (x1 - x2);
-		int dy = (y1 - y2) * (y1 - y2);
-		int ds = (s1 + s2) * (s1 + s2);
+	public boolean intersect(float playerX2, float playerY2, int x2, int y2, int s1, int s2) {
+		float dx = (playerX2 - x2) * (playerX2 - x2);
+		float dy = (playerY2 - y2) * (playerY2 - y2);
+		float ds = (s1 + s2) * (s1 + s2);
 		return dx + dy <= ds;
 	}
 
@@ -309,29 +325,41 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		if (currentState == gameState) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				playerY -= 15;
+				moveUp = true;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				playerY += 15;
+				moveDown = true;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				playerX -= 15;
+				moveLeft = true;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				playerX += 15;
+				moveRight = true;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_O) {
 				playerSize += 150;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_P) {
-				playerSize -= 15;
+				playerSize -= 175;
 			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		if (currentState == gameState) {
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				moveUp = false;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				moveDown = false;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				moveLeft = false;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				moveRight = false;
+			}
+		}
 	}
 }
